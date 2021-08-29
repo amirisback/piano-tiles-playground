@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import androidx.core.content.res.ResourcesCompat
 import com.frogobox.pianotiles.R
 import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
@@ -45,7 +46,6 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
     private var touchedY = 0f
 
     private var scoreSize = 100f
-    private var backGroundColor = Color.WHITE
 
     private var started = false
 
@@ -71,7 +71,8 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
         // clickedTileColor.color = Color.GRAY
         // loseTileColor.color = Color.RED
         whitePaint.color = Color.WHITE
-        scorePaint.color = Color.CYAN
+        scorePaint.color = Color.RED
+        scorePaint.typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
 
         //game objects
         tiles.add(GameTile(context, normalTileColor, clickedTileColor, loseTileColor, row))
@@ -83,11 +84,11 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
         if (music && soundPool == null) {
             soundPool = SoundPool(20, AudioManager.STREAM_MUSIC, 0)
             if (failSound == null) {
-                failSound = soundPool?.load(context, R.raw.failsound, 1)
+                failSound = soundPool?.load(context, R.raw.lose_sound, 1)
             }
 
             if (tileSound == null) {
-                tileSound = soundPool?.load(context, R.raw.a, 1)
+                tileSound = soundPool?.load(context, R.raw.piano_sound, 1)
             }
         }
 
