@@ -1,10 +1,10 @@
-package com.tayyar.pianotiles.game
+package com.frogobox.pianotiles.game
 
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
-import com.tayyar.pianotiles.game.GameView.Companion.screenWidth
-import com.tayyar.pianotiles.game.GameView.Companion.screenHeight
+import com.frogobox.pianotiles.game.GameView.Companion.screenWidth
+import com.frogobox.pianotiles.game.GameView.Companion.screenHeight
 
 /**
  * Tile Class.

@@ -1,4 +1,4 @@
-package com.tayyar.pianotiles
+package com.frogobox.pianotiles
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.tayyar.pianotiles.databinding.ActivityMainBinding
+import com.frogobox.pianotiles.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {

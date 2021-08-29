@@ -1,11 +1,11 @@
-package com.tayyar.pianotiles.game
+package com.frogobox.pianotiles.game
 
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import com.tayyar.pianotiles.R
+import com.frogobox.pianotiles.R
 
 class GameActivity : AppCompatActivity() {
 

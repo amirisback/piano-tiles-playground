@@ -1,4 +1,4 @@
-package com.tayyar.pianotiles
+package com.frogobox.pianotiles
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.tayyar.pianotiles.databinding.FragmentMainBinding
-import com.tayyar.pianotiles.game.GameActivity
+import com.frogobox.pianotiles.databinding.FragmentMainBinding
+import com.frogobox.pianotiles.game.GameActivity
 
 /** Homepage of the app */
 class MainFragment : Fragment() {

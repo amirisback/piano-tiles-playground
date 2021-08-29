@@ -1,2 +1,2 @@
+rootProject.name='PianoTiles'
 include ':app'
-rootProject.name='Piano Tiles'
