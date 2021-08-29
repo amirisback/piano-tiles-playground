@@ -4,10 +4,14 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.core.content.ContextCompat
 import com.frogobox.pianotiles.R
 import com.frogobox.pianotiles.databinding.ActivityGameBinding
 import com.frogobox.sdk.core.FrogoActivity
+import com.frogobox.pianotiles.MainActivity
+
+import android.content.Intent
+import android.os.Handler
+
 
 class GameActivity : FrogoActivity<ActivityGameBinding>() {
 
@@ -70,15 +74,17 @@ class GameActivity : FrogoActivity<ActivityGameBinding>() {
     }
 
 
-    fun showReplayButton() {
-        this@GameActivity.runOnUiThread {
-            img.visibility = View.VISIBLE
-        }
-    }
+    fun goToGameOver() {
+        runOnUiThread {
+            Handler().postDelayed(object : Runnable {
+                override fun run() {
+                    val i = Intent(this@GameActivity, MainActivity::class.java)
+                    startActivity(i) // Menghubungkan activity splashscren ke main activity dengan intent
+                    finish() // Jeda selesai Splashscreen
+                }
 
-    fun hideReplayButton() {
-        this@GameActivity.runOnUiThread {
-            img.visibility = View.GONE
+                private fun finish() {}
+            }, 700)
         }
     }
 

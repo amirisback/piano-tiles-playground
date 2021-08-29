@@ -136,7 +136,6 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
         if (playingSound != null) {
             soundPool?.stop(playingSound!!)
         }
-        (context as GameActivity).hideReplayButton()
         GameTile.speed = initialSpeed
         tiles.clear()
         score = 0
@@ -177,7 +176,7 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
             GameTile.speed = 0
             thread.setRunning(false)
             saveIfHighScore(initialSpeed, score)
-            (context as GameActivity).showReplayButton()
+            (context as GameActivity).goToGameOver()
             gameOverOver = true
         }
 
