@@ -4,35 +4,48 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.frogobox.pianotiles.databinding.FragmentHighScoresBinding
+import com.frogobox.pianotiles.databinding.ListItemBinding
+import com.frogobox.sdk.core.FrogoFragment
 
 /** Shows high scores */
-class HighScoresFragment : Fragment() {
+class HighScoresFragment : FrogoFragment<FragmentHighScoresBinding>() {
+
+    override fun setupViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentHighScoresBinding {
+        return FragmentHighScoresBinding.inflate(inflater, container, false)
+    }
+
+    override fun setupViewModel() {}
+
+    override fun setupUI(savedInstanceState: Bundle?) {
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val binding: FragmentHighScoresBinding =
-            FragmentHighScoresBinding.inflate(inflater, container, false)
+    ): View? {
 
-        // get high scores and show in table
-        val sharedPref = activity?.getSharedPreferences(
-            getString(R.string.shared_preferences_name),
-            AppCompatActivity.MODE_PRIVATE
-        )
-        val highScores = sharedPref?.all?.toSortedMap(compareBy<String> { it.toInt() })
+        binding.apply {
+            val sharedPref = activity?.getSharedPreferences(
+                getString(R.string.shared_preferences_name),
+                AppCompatActivity.MODE_PRIVATE
+            )
+            val highScores = sharedPref?.all?.toSortedMap(compareBy<String> { it.toInt() })
 
-        for (score in highScores!!.iterator()) {
-            val item = inflater.inflate(R.layout.list_item, binding.highScoresTable, false)
-            item.findViewById<TextView>(R.id.speed).text = score.key
-            item.findViewById<TextView>(R.id.score).text = score.value.toString()
-            binding.highScoresTable.addView(item)
+            for (score in highScores!!.iterator()) {
+                val item = ListItemBinding.inflate(inflater, highScoresTable, false)
+                item.speed.text = score.key
+                item.score.text = score.value.toString()
+                highScoresTable.addView(item.root)
+            }
         }
 
-        return binding.root
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
+
 }

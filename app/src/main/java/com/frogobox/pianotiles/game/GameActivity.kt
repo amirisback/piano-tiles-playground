@@ -4,20 +4,25 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import com.frogobox.pianotiles.R
+import com.frogobox.pianotiles.databinding.ActivityGameBinding
+import com.frogobox.sdk.core.FrogoActivity
 
-class GameActivity : AppCompatActivity() {
+class GameActivity : FrogoActivity<ActivityGameBinding>() {
 
     private lateinit var gameView: GameView
     private lateinit var img: View
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun setupViewBinding(): ActivityGameBinding {
+        return ActivityGameBinding.inflate(layoutInflater)
+    }
+
+    override fun setupViewModel() {}
+
+    override fun setupUI(savedInstanceState: Bundle?) {
 
         Log.d("ati", "activity created")
-
-        setContentView(R.layout.activity_game)
+        removeNotifBar()
 
         val speed = intent.getStringExtra("speed")
         val music = intent.getBooleanExtra("music", true)
@@ -41,11 +46,16 @@ class GameActivity : AppCompatActivity() {
 
         img = layoutInflater.inflate(R.layout.centered_image, screen, false)
         img.visibility = View.GONE
+
         img.setOnClickListener {
             gameView.restart()
         }
+
         screen.addView(img)
 
+    }
+
+    fun removeNotifBar() {
         // remove notification bar
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -57,6 +67,7 @@ class GameActivity : AppCompatActivity() {
             )
         }
     }
+
 
     fun showReplayButton() {
         this@GameActivity.runOnUiThread {
@@ -85,4 +96,5 @@ class GameActivity : AppCompatActivity() {
         gameView.destroy()
         super.onDestroy()
     }
+
 }

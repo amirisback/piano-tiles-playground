@@ -2,41 +2,44 @@ package com.frogobox.pianotiles
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.frogobox.pianotiles.databinding.FragmentMainBinding
 import com.frogobox.pianotiles.game.GameActivity
+import com.frogobox.sdk.core.FrogoFragment
 
 /** Homepage of the app */
-class MainFragment : Fragment() {
+class MainFragment : FrogoFragment<FragmentMainBinding>() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val binding: FragmentMainBinding = FragmentMainBinding.inflate(inflater, container, false)
+    override fun setupViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentMainBinding {
+        return FragmentMainBinding.inflate(inflater, container, false)
+    }
 
-        // Add on click listener to the button to start the game
-        binding.button.setOnClickListener {
-            val speed = binding.editText.text.toString()
-            val music = binding.musicBox.isChecked
-            val vibration = binding.vibrationBox.isChecked
+    override fun setupViewModel() {}
 
-            if (speed == "" || speed == "0") {
-                Toast.makeText(context, "You have to select a speed", Toast.LENGTH_SHORT).show()
-            } else {
-                val intent = Intent(context, GameActivity::class.java).apply {
-                    putExtra("speed", speed)
-                    putExtra("music", music)
-                    putExtra("vibration", vibration)
+    override fun setupUI(savedInstanceState: Bundle?) {
+
+        binding.apply {
+            button.setOnClickListener {
+                val speed = editText.text.toString()
+                val music = musicBox.isChecked
+                val vibration = vibrationBox.isChecked
+
+                if (speed == "" || speed == "0") {
+                    showToast("You have to select a speed")
+                } else {
+                    val intent = Intent(context, GameActivity::class.java).apply {
+                        putExtra("speed", speed)
+                        putExtra("music", music)
+                        putExtra("vibration", vibration)
+                    }
+                    startActivity(intent)
                 }
-                startActivity(intent)
             }
         }
-
-        return binding.root
     }
+
 }

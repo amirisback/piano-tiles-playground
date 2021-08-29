@@ -56,4 +56,11 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+
+    implementation 'com.github.amirisback:frogo-recycler-view:3.8.5'
+    implementation 'com.github.amirisback:frogo-log:2.0.4'
+
+    implementation 'com.github.frogobox:frogo-android-sdk:2.0.3'
+    implementation 'com.github.frogobox:frogo-android-ui-kit:1.0.4'
+
 }
