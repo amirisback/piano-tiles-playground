@@ -12,7 +12,7 @@ import com.frogobox.pianotiles.game.GameView.Companion.screenHeight
  * Purpose of the game is to press the tile
  */
 
-class Tile(blackPaint : Paint, private var pressedTileColor: Paint, private var redPaint: Paint, row : Int) {
+class GameTile(blackPaint : Paint, private var pressedTileColor: Paint, private var redPaint: Paint, row : Int) {
 
     companion object {
         var speed = 30

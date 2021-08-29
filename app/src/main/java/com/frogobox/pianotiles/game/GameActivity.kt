@@ -32,7 +32,7 @@ class GameActivity : FrogoActivity<ActivityGameBinding>() {
         GameView.vibration = vibration
 
         if (speed != "") {
-            Tile.speed = speed!!.toInt()
+            GameTile.speed = speed!!.toInt()
         }
 
         val screen = (findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup

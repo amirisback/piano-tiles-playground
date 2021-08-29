@@ -24,8 +24,8 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
 
     private val thread: GameThread
 
-    private var tiles = LinkedList<Tile>()
-    private var tempTiles = CopyOnWriteArrayList<Tile>()
+    private var tiles = LinkedList<GameTile>()
+    private var tempTiles = CopyOnWriteArrayList<GameTile>()
 
     private var vibrator: Vibrator? = null
 
@@ -51,7 +51,7 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
 
     private var started = false
 
-    private var initialSpeed: Int = Tile.speed
+    private var initialSpeed: Int = GameTile.speed
 
     private var soundPool: SoundPool? = null
     private var failSound: Int? = null
@@ -71,7 +71,7 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
         row = (0..3).random()
 
         //game objects
-        tiles.add(Tile(blackPaint, grayPaint, redPaint, row))
+        tiles.add(GameTile(blackPaint, grayPaint, redPaint, row))
 
         lastRow = row
 
@@ -139,13 +139,13 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
             soundPool?.stop(playingSound!!)
         }
         (context as GameActivity).hideReplayButton()
-        Tile.speed = initialSpeed
+        GameTile.speed = initialSpeed
         tiles.clear()
         score = 0
         tappedWrongTile = -1
         row = (0..3).random()
         //game objects
-        tiles.add(Tile(blackPaint, grayPaint, redPaint, row))
+        tiles.add(GameTile(blackPaint, grayPaint, redPaint, row))
         lastRow = row
         gameOver = false
         gameOverOver = false
@@ -174,7 +174,7 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
         // stop the game
         if (gameOver && !gameOverOver) {
             playingSound = soundPool?.play(failSound!!, 1f, 1f, 0, 0, 1f)
-            Tile.speed = 0
+            GameTile.speed = 0
             thread.setRunning(false)
             saveIfHighScore(initialSpeed, score)
             (context as GameActivity).showReplayButton()
@@ -193,7 +193,7 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
                 row = (0..3).random()
             } while (row == lastRow)
 
-            tiles.add(Tile(blackPaint, grayPaint, redPaint, row))
+            tiles.add(GameTile(blackPaint, grayPaint, redPaint, row))
 
             lastRow = row
         }
@@ -253,7 +253,7 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
         event.actionMasked.let { action ->
             if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN) {
                 event.actionIndex.let { index ->
-                    if (Tile.speed > 0) {
+                    if (GameTile.speed > 0) {
                         touchedX = event.getX(index)
                         touchedY = event.getY(index)
                         tempTiles = CopyOnWriteArrayList(tiles)
