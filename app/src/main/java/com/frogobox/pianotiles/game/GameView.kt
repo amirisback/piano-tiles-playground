@@ -2,10 +2,7 @@ package com.frogobox.pianotiles.game
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Build
@@ -29,9 +26,10 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
 
     private var vibrator: Vibrator? = null
 
-    private var blackPaint = Paint()
-    private var grayPaint = Paint()
-    private var redPaint = Paint()
+    private var normalTileColor = R.drawable.node_normal
+    private var clickedTileColor = R.drawable.node_clicked
+    private var loseTileColor = R.drawable.node_lose
+    private var whitePaint = Paint()
     private var scorePaint = Paint()
 
     private var row = -1
@@ -65,21 +63,20 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
 
         // instantiate the game thread
         thread = GameThread(holder, this)
-
         score = 0
-
         row = (0..3).random()
 
+        // color of the tiles
+        // normalTileColor.color = Color.BLACK
+        // clickedTileColor.color = Color.GRAY
+        // loseTileColor.color = Color.RED
+        whitePaint.color = Color.WHITE
+        scorePaint.color = Color.CYAN
+
         //game objects
-        tiles.add(GameTile(blackPaint, grayPaint, redPaint, row))
+        tiles.add(GameTile(context, normalTileColor, clickedTileColor, loseTileColor, row))
 
         lastRow = row
-
-        // color of the tiles
-        blackPaint.color = Color.BLACK
-        grayPaint.color = Color.GRAY
-        redPaint.color = Color.RED
-        scorePaint.color = Color.CYAN
 
         scorePaint.textSize = scoreSize
 
@@ -145,7 +142,7 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
         tappedWrongTile = -1
         row = (0..3).random()
         //game objects
-        tiles.add(GameTile(blackPaint, grayPaint, redPaint, row))
+        tiles.add(GameTile(context, normalTileColor, clickedTileColor, loseTileColor, row))
         lastRow = row
         gameOver = false
         gameOverOver = false
@@ -171,6 +168,8 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
 
+        drawBackground(canvas)
+
         // stop the game
         if (gameOver && !gameOverOver) {
             playingSound = soundPool?.play(failSound!!, 1f, 1f, 0, 0, 1f)
@@ -193,7 +192,7 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
                 row = (0..3).random()
             } while (row == lastRow)
 
-            tiles.add(GameTile(blackPaint, grayPaint, redPaint, row))
+            tiles.add(GameTile(context, normalTileColor, clickedTileColor, loseTileColor, row))
 
             lastRow = row
         }
@@ -207,17 +206,47 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
         }
         // draw red tile if pressed the wrong tile
         when (tappedWrongTile) {
-            0 -> canvas.drawRect(Rect(0, startY, screenWidth / 4, endY), redPaint)
-            1 -> canvas.drawRect(Rect(screenWidth / 4, startY, screenWidth / 2, endY), redPaint)
-            2 -> canvas.drawRect(Rect(screenWidth / 2, startY, screenWidth * 3 / 4, endY), redPaint)
-            3 -> canvas.drawRect(Rect(screenWidth * 3 / 4, startY, screenWidth, endY), redPaint)
+            0 -> {
+                val rect = Rect(0, startY, screenWidth / 4, endY)
+                // canvas.drawRect(rect, loseTileColor)
+                val bitmap = BitmapFactory.decodeResource(resources, loseTileColor)
+                canvas.drawBitmap(bitmap, null, rect, null)
+            }
+            1 -> {
+                val rect = Rect(screenWidth / 4, startY, screenWidth / 2, endY)
+                // canvas.drawRect(rect, loseTileColor)
+                val bitmap = BitmapFactory.decodeResource(resources, loseTileColor)
+                canvas.drawBitmap(bitmap, null, rect, null)
+            }
+            2 -> {
+                val rect = Rect(screenWidth / 2, startY, screenWidth * 3 / 4, endY)
+                // canvas.drawRect(rect, loseTileColor)
+                val bitmap = BitmapFactory.decodeResource(resources, loseTileColor)
+                canvas.drawBitmap(bitmap, null, rect, null)
+            }
+            3 -> {
+                val rect = Rect(screenWidth * 3 / 4, startY, screenWidth, endY)
+                // canvas.drawRect(rect, loseTileColor)
+                val bitmap = BitmapFactory.decodeResource(resources, loseTileColor)
+                canvas.drawBitmap(bitmap, null, rect, null)
+            }
         }
         drawScore(canvas)
     }
 
+    private fun drawBackground(canvas: Canvas) {
+        val rect = Rect(0, 0, screenWidth, screenHeight)
+        canvas.drawBitmap(
+            BitmapFactory.decodeResource(resources, R.drawable.background),
+            null,
+            rect,
+            null
+        )
+    }
+
     fun drawLines(canvas: Canvas) {
         // paint the background
-        canvas.drawColor(backGroundColor)
+        // canvas.drawColor(backGroundColor)
 
         // alignment lines
         canvas.drawLine(
@@ -225,21 +254,21 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
             0f,
             screenWidth.toFloat() / 4,
             screenHeight.toFloat(),
-            blackPaint
+            whitePaint
         )
         canvas.drawLine(
             screenWidth.toFloat() / 2,
             0f,
             screenWidth.toFloat() / 2,
             screenHeight.toFloat(),
-            blackPaint
+            whitePaint
         )
         canvas.drawLine(
             3 * screenWidth.toFloat() / 4,
             0f,
             3 * screenWidth.toFloat() / 4,
             screenHeight.toFloat(),
-            blackPaint
+            whitePaint
         )
     }
 

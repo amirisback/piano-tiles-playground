@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.core.content.ContextCompat
 import com.frogobox.pianotiles.R
 import com.frogobox.pianotiles.databinding.ActivityGameBinding
 import com.frogobox.sdk.core.FrogoActivity
@@ -36,12 +37,12 @@ class GameActivity : FrogoActivity<ActivityGameBinding>() {
         }
 
         val screen = (findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup
-        gameView = GameView(this)
-        gameView.layoutParams =
-            ViewGroup.LayoutParams(
+        gameView = GameView(this).apply {
+            layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
+        }
         screen.addView(gameView)
 
         img = layoutInflater.inflate(R.layout.centered_image, screen, false)
