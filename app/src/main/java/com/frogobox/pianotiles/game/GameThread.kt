@@ -1,4 +1,4 @@
-package com.tayyar.pianotiles.game
+package com.frogobox.pianotiles.game
 
 import android.graphics.Canvas
 import android.view.SurfaceHolder
