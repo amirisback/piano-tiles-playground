@@ -3,7 +3,6 @@ package com.frogobox.pianotiles.game
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.graphics.Paint
 import android.graphics.Rect
 import com.frogobox.pianotiles.game.GameView.Companion.screenHeight
 import com.frogobox.pianotiles.game.GameView.Companion.screenWidth
@@ -17,9 +16,9 @@ import com.frogobox.pianotiles.game.GameView.Companion.screenWidth
 
 class GameTile(
     private val context: Context,
-    private var normalTileColor: Int,
-    private var clickedTileColor: Int,
-    private var loseTileColor: Int,
+    private val normalTileColor: Int,
+    private val clickedTileColor: Int,
+    private val loseTileColor: Int,
     row: Int
 ) {
 
@@ -27,32 +26,26 @@ class GameTile(
         var speed = 30
     }
 
-    private var startX: Int = 0
-    var startY: Int = 0
-    private var endX: Int = 0
-    var endY: Int = 0
+    private var startX: Int = row * (screenWidth / 4)
+    var startY: Int = -screenHeight / 4
+
+    private var endX: Int = screenWidth / 4 + startX
+    var endY: Int = screenHeight / 4 + startY
 
     var pressed: Boolean = false
 
     var outOfScreen = false
     private var outOfBounds = false
+
     var gameOver = false
 
     private var tileColor = normalTileColor
-
-    init {
-        startX = row * (screenWidth / 4)
-        startY = -screenHeight / 4
-        endX = screenWidth / 4 + startX
-        endY = screenHeight / 4 + startY
-    }
 
     /**
      * Draws the object on to the canvas.
      */
     fun draw(canvas: Canvas) {
         val rect = Rect(startX, startY, endX, endY)
-        // canvas.drawRect(rect, tileColor)
         val bitmap = BitmapFactory.decodeResource(context.resources, tileColor)
         canvas.drawBitmap(bitmap, null, rect, null)
     }
@@ -61,8 +54,7 @@ class GameTile(
      * update properties for the game object
      */
     fun update() {
-
-        //stop the tile if it reaches the end
+        // Stop the tile if it reaches the end
         if (startY >= screenHeight && !pressed) {
             tileColor = loseTileColor
             outOfBounds = true
@@ -76,7 +68,6 @@ class GameTile(
         }
         startY += (speed)
         endY += (speed)
-
     }
 
     fun checkTouch(x: Float, y: Float): Boolean {

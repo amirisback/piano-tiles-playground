@@ -29,8 +29,7 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
                 if (System.nanoTime() - firstTime < 500000000) {
                     canvas = this.surfaceHolder.lockCanvas()
                     synchronized(surfaceHolder) {
-                        this.gameView.drawLines(canvas!!)
-                        this.gameView.drawScore(canvas!!)
+                        this.gameView.createScore()
                     }
                     surfaceHolder.unlockCanvasAndPost(canvas)
                     continue

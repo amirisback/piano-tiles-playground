@@ -16,7 +16,7 @@ import android.os.Handler
 class GameActivity : FrogoActivity<ActivityGameBinding>() {
 
     private lateinit var gameView: GameView
-    private lateinit var img: View
+    private val TAG = GameActivity::class.java.simpleName
 
     override fun setupViewBinding(): ActivityGameBinding {
         return ActivityGameBinding.inflate(layoutInflater)
@@ -26,7 +26,7 @@ class GameActivity : FrogoActivity<ActivityGameBinding>() {
 
     override fun setupUI(savedInstanceState: Bundle?) {
 
-        Log.d("ati", "activity created")
+        Log.d(TAG, "activity created")
         removeNotifBar()
 
         val speed = intent.getStringExtra("speed")
@@ -40,23 +40,14 @@ class GameActivity : FrogoActivity<ActivityGameBinding>() {
             GameTile.speed = speed!!.toInt()
         }
 
-        val screen = (findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup
         gameView = GameView(this).apply {
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         }
-        screen.addView(gameView)
 
-        img = layoutInflater.inflate(R.layout.centered_image, screen, false)
-        img.visibility = View.GONE
-
-        img.setOnClickListener {
-            gameView.restart()
-        }
-
-        screen.addView(img)
+        binding.rvGame.addView(gameView)
 
     }
 
@@ -73,6 +64,11 @@ class GameActivity : FrogoActivity<ActivityGameBinding>() {
         }
     }
 
+    fun setScoreText(score: String) {
+        runOnUiThread {
+            binding.tvScore.text = score
+        }
+    }
 
     fun goToGameOver() {
         runOnUiThread {
@@ -89,18 +85,17 @@ class GameActivity : FrogoActivity<ActivityGameBinding>() {
     }
 
     override fun onPause() {
-        Log.d("ati", "activity paused")
+        Log.d(TAG, "activity paused")
         super.onPause()
     }
 
     override fun onResume() {
-        Log.d("ati", "activity resumed")
+        Log.d(TAG, "activity resumed")
         super.onResume()
     }
 
     override fun onDestroy() {
-        Log.d("ati", "activity destroyed")
-        gameView.destroy()
+        Log.d(TAG, "activity destroyed")
         super.onDestroy()
     }
 
