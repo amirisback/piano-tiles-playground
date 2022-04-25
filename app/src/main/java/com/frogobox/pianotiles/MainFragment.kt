@@ -3,10 +3,11 @@ package com.frogobox.pianotiles
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.frogobox.pianotiles.databinding.FragmentMainBinding
 import com.frogobox.pianotiles.game.GameActivity
-import com.frogobox.sdk.core.FrogoFragment
+import com.frogobox.sdk.view.FrogoFragment
 
 /** Homepage of the app */
 class MainFragment : FrogoFragment<FragmentMainBinding>() {
@@ -18,10 +19,7 @@ class MainFragment : FrogoFragment<FragmentMainBinding>() {
         return FragmentMainBinding.inflate(inflater, container, false)
     }
 
-    override fun setupViewModel() {}
-
-    override fun setupUI(savedInstanceState: Bundle?) {
-
+    override fun setupOnViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.apply {
             button.setOnClickListener {
                 val speed = editText.text.toString()

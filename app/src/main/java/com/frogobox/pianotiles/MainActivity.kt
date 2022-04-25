@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.frogobox.pianotiles.databinding.ActivityMainBinding
-import com.frogobox.sdk.core.FrogoActivity
+import com.frogobox.sdk.view.FrogoActivity
 
 
 class MainActivity : FrogoActivity<ActivityMainBinding>() {
@@ -17,9 +17,7 @@ class MainActivity : FrogoActivity<ActivityMainBinding>() {
         return ActivityMainBinding.inflate(layoutInflater)
     }
 
-    override fun setupViewModel() {}
-
-    override fun setupUI(savedInstanceState: Bundle?) {
+    override fun setupOnCreate(savedInstanceState: Bundle?) {
         binding.apply {
 
             // set toolbar
@@ -33,7 +31,7 @@ class MainActivity : FrogoActivity<ActivityMainBinding>() {
 
             // menu can only be opened in main menu
             navController.addOnDestinationChangedListener { controller, destination, _ ->
-                if (destination.id == controller.graph.startDestination) {
+                if (destination.id == controller.graph.startDestinationId) {
                     drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                 } else {
                     drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)

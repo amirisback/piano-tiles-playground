@@ -1,16 +1,16 @@
 package com.frogobox.pianotiles.game
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.*
-import com.frogobox.pianotiles.R
-import com.frogobox.pianotiles.databinding.ActivityGameBinding
-import com.frogobox.sdk.core.FrogoActivity
-import com.frogobox.pianotiles.MainActivity
-
-import android.content.Intent
 import android.os.Handler
+import android.util.Log
+import android.view.ViewGroup
+import android.view.WindowInsets
+import android.view.WindowManager
+import com.frogobox.pianotiles.MainActivity
+import com.frogobox.pianotiles.databinding.ActivityGameBinding
+import com.frogobox.sdk.view.FrogoActivity
 
 
 class GameActivity : FrogoActivity<ActivityGameBinding>() {
@@ -22,9 +22,7 @@ class GameActivity : FrogoActivity<ActivityGameBinding>() {
         return ActivityGameBinding.inflate(layoutInflater)
     }
 
-    override fun setupViewModel() {}
-
-    override fun setupUI(savedInstanceState: Bundle?) {
+    override fun setupOnCreate(savedInstanceState: Bundle?) {
 
         Log.d(TAG, "activity created")
         removeNotifBar()
